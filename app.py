@@ -7,17 +7,37 @@ from settings import ROOT, DATA
 
 st.set_page_config(page_title='Premier League Performance Intelligence', page_icon='⚽', layout='wide')
 st.markdown('''<style>
-.stApp {background:#0b101a;color:#edf2fa}
-[data-testid="stMetric"] {background:#151e2e;border:1px solid #2c3b52;border-radius:12px;padding:16px}
-h1,h2,h3 {letter-spacing:-.025em}
+.stApp {background:radial-gradient(ellipse at top right,#122637 0%,#0b101a 48%);color:#edf2fa}
+.block-container {padding-top:2rem;max-width:1500px}
+[data-testid="stSidebar"] {background:#101824;border-right:1px solid #263848}
+[data-testid="stMetric"] {background:linear-gradient(135deg,#182738,#111d2b);border:1px solid #304759;border-top:2px solid #55e6c1;border-radius:14px;padding:18px}
+[data-testid="stMetricValue"] {font-variant-numeric:tabular-nums;letter-spacing:-.04em}
+h1,h2,h3 {letter-spacing:-.035em}
+h1 {font-size:clamp(2rem,4vw,3.1rem)!important;line-height:1.05!important}
+[data-baseweb="tab-list"] {gap:20px;border-bottom:1px solid #2b4051}
+button[data-baseweb="tab"] {padding-bottom:14px}
+.season-strip {color:#95b5c6;font-size:.8rem;letter-spacing:.12em;border-left:3px solid #55e6c1;padding:10px 14px;background:#112130;margin-bottom:24px}
+@media(max-width:640px){.block-container{padding:1.25rem 1rem} [data-testid="stMetric"]{padding:14px}}
 </style>''', unsafe_allow_html=True)
 if (ROOT/'assets/juvolab-logo.png').exists():
-    st.image(str(ROOT/'assets/juvolab-logo.png'),width=260)
+    st.image(str(ROOT/'assets/juvolab-logo.png'),width=210)
 st.caption('JUVOLAB  /  FOOTBALL PERFORMANCE RESEARCH')
 st.title('Premier League Performance Intelligence')
 st.write('Distinguish results from the chances teams created and conceded.')
-if not (DATA/'performance.db').exists():
-    st.info('Run python ingest.py to build the local database before opening the dashboard.')
+st.markdown('<div class="season-strip">2015/16 PREMIER LEAGUE &nbsp; / &nbsp; 20 CLUBS &nbsp; / &nbsp; 380 MATCHES</div>',unsafe_allow_html=True)
+
+@st.cache_resource(show_spinner=False)
+def initialize():
+    from bootstrap import ensure_data
+    return ensure_data()
+
+try:
+    with st.spinner('Preparing the research data. The first visit may take a few minutes; subsequent visits use the ready dataset.'):
+        initialize()
+except Exception:
+    st.error('Data preparation could not finish. Please retry shortly.')
+    if st.button('Retry data preparation'):
+        st.rerun()
     st.stop()
 
 @st.cache_data
@@ -52,7 +72,7 @@ tabs=st.tabs(['League overview','Season trends','Team comparison','Methods & cov
 def chart(fig):
     for trace in fig.data:
         trace.name={'cumulative_gd':'Actual GD','cumulative_xgd':'xG difference','rolling_gd':'Actual GD','rolling_xgd':'xG difference'}.get(trace.name,trace.name)
-    fig.update_layout(template='plotly_dark',paper_bgcolor='#0b101a',plot_bgcolor='#111a28',legend_title_text='')
+    fig.update_layout(template='plotly_dark',paper_bgcolor='#0b101a',plot_bgcolor='#111a28',legend_title_text='',colorway=['#55e6c1','#8b9dff'],legend=dict(orientation='h',y=1.12,x=0),margin=dict(l=30,r=20,t=65,b=45))
     st.plotly_chart(fig,use_container_width=True)
 with tabs[0]:
     chart(px.scatter(s,x='xgd',y='points',hover_name='team',color='gap',color_continuous_scale='RdBu',labels={'xgd':'xG difference','points':'Points','gap':'GD − xGD'}))

@@ -72,7 +72,7 @@ def build():
         return rows
 
     rows = []
-    with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
         for i, result in enumerate(pool.map(process, matches), 1):
             rows.extend(result)
             if i % 40 == 0:
