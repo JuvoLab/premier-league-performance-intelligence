@@ -54,10 +54,12 @@ The official externally approved logo is included and displayed with source cred
 
 ## Current verification and outstanding work
 
-Five tests pass in an isolated Python 3.12.14 environment, including SQL/Pandas agreement and Streamlit team/prefix interactions. Fresh downloads reproduced all 381 source hashes and identical database rows. All 380 matches passed event/score reconciliation, including own goals. Dependency checks pass; the earlier test cleanup exception did not recur with normal temporary-directory access. Keyboard tab activation and slider operation, mobile chart rendering and page width were checked. Full accessibility certification, other browsers/devices and Linux hosting remain unverified. The local inherited-environment snapshot `requirements-local-lock.txt` is superseded by the isolated Windows lock. See [QA review](docs/qa-review.md) for evidence and remaining limits. No GitHub repository or public URL exists yet; publication and deployment require owner approval.
+Five tests pass in an isolated Python 3.12.14 environment, including SQL/Pandas agreement and Streamlit team/prefix interactions. Fresh downloads reproduced all 381 source hashes and identical database rows. All 380 matches passed event/score reconciliation, including own goals. Dependency checks pass; the earlier test cleanup exception did not recur with normal temporary-directory access. Keyboard tab activation and slider operation, mobile chart rendering and page width were checked. Full accessibility certification, other browsers/devices and Linux hosting remain unverified. The local inherited-environment snapshot `requirements-local-lock.txt` is superseded by the isolated Windows lock. See [QA review](docs/qa-review.md) for evidence and remaining limits. Source publication is authorized and available on [GitHub](https://github.com/JuvoLab/premier-league-performance-intelligence). A hosted dashboard is not deployed.
 
 Created by JuvoLab. See the technical case study for methods, findings and analytical limitations.
 
 ## Player profiles
 
 Interactive player cards show verified full-season shots, shot goals and shot xG. Jamie Vardy and Harry Kane also have licensed photographs; other players retain statistical cards without invented imagery. [Photo attribution and licenses](assets/players/README.md). Photos are illustrative and may have been taken outside the analysed season. No player ratings, minutes or assists are inferred.
+
+![Player profile example](docs/player-card-vardy.png)
