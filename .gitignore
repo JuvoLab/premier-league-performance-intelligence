@@ -1,0 +1,11 @@
+data/
+.venv/
+.qa-venv/
+.private/
+release/
+pytest-cache-files-*/
+__pycache__/
+.pytest_cache/
+*.db
+.env
+secrets.toml
